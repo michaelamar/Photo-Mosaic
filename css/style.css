@@ -124,7 +124,7 @@ body {
 	z-index: -1;
 }
 #tiles .tile {
-	
+	margin: 10px;
 }
 #tiles .tile img {
 	display: block;

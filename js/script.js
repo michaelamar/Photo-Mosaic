@@ -1,5 +1,5 @@
 $(document).ready(function(){
-	
+	var markup = [];
 	var key = 'dc2498ad3e413bde8dc546a8013c3736';
 
 	$('#search-form').submit(function(e){
@@ -9,8 +9,7 @@ $(document).ready(function(){
 		e.preventDefault();
 
 		// change the value below to whatever happens to be in the search box
-		var text = null;
-
+		var text = $('#keywords').val();
 		//prevent the user from searching unless there is text in the text box
 		//if() {
 
@@ -20,7 +19,7 @@ $(document).ready(function(){
 		//docs for the photos.search method to see which parameters you need to add to
 		//the URL to accomplish this
 
-		$.getJSON('http://api.flickr.com/services/rest/?method=flickr.photos.search&format=json&per_page=50&content_type=1&jsoncallback=?', successCallback);
+		$.getJSON('http://api.flickr.com/services/rest/?method=flickr.photos.search&format=json&per_page=50&content_type=1&api_key=' +key+'&tags='+text+'&jsoncallback=?', successCallback);
 		
 		// } else {
 			//create an alert box that lets the user know he/she needs to enter text
@@ -29,14 +28,43 @@ $(document).ready(function(){
 
 	function successCallback(data) {
 		//log the variable "data" to the console to see what the object looks like
-
+		var photos =data.photos.photo;
+		
+		for (var i =0; i<photos.length; i++){
+			var photo = photos[i];
+			
+		
 		//now loop through the photos and add markup to the DOM. Read the
 		//directions.txt doc included in the project for guidance. Grab the "q"
 		//version of each photo.
-		var photos = null;
+		 
+
+		var id = photo.id;
+		
+		var farm = photo.farm;
+		
+		var server = photo.server;
+		
+		var secret = photo.secret;
+		
+		
 
 		//initialize the html string so we can build on it in the loop
-		var markup = '';
+		
+
+		markup.push('http://farm'+farm+'.staticflickr.com/'+server+'/'+id+'_'+secret+'_q.jpg');
+
+
+
+
+
+	};
+
+	for(var a=1; a<markup.length; a++){
+		$("#tiles").append(' <img src="'+markup[a]+'" />');
+		console.log(markup[a]);
+	}
+	
 
 		//assemble your markup 
 		//for() {
